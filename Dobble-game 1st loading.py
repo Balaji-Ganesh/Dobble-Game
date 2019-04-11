@@ -1,21 +1,46 @@
 """
-  BUG FIXING - NOTE:
-  ***NOTE****
- Deleting the symbol once it is entried in the card, as it might result to a bug as there is a possibility of selecting the same symbol by random.choice() function..
+Developed on 11th April, Thursday in 2019
+
+This game is improved with the previous version by adding the difficulty level in choosing the letters
+
+Difficulty level-1: only lowercase letters with the card size 5
+Difficulty level-2: lowercase and uppercase letters with the card size 5
+Difficulty level-3: lowercase and uppercase letters with the card size 8
+Difficulty level-4: lowercase and uppercase letters with the card size 12
+Difficulty level-5: lowercase and uppercase letters with the card size 15
 """
 
 import string
 import random
-
+print("\n\t\t\t\t\"Welcome to the DOBBLE GAME\"\n")
+print("Select the Difficulty level :")
+print("\tLEVEL 1"); print("\tLEVEL 2"); print("\tLEVEL 3"); print("\tLEVEL 4"); print("\tLEVEL 5")
+difflvl = int(input("Enter the difficulty level number : "))  # difflvl = difficultylevel
 symbols = []
-symbols = list(string.ascii_letters)
-# Creating a card with minimum 5 symbols
-card1 = [0]*5
-card2 = [0]*5
+limit = 0  # Defines the number of symbols based on selected difficulty level
+if difflvl == 1:
+    symbols = list(string.ascii_lowercase)
+    limit = 5
+elif difflvl == 2:
+    symbols = list(string.ascii_letters)
+    limit = 5
+elif difflvl == 3:
+    symbols = list(string.ascii_letters)
+    limit = 8
+elif difflvl == 4:
+    symbols = list(string.ascii_letters)
+    limit = 12
+elif difflvl == 5:
+    symbols = list(string.ascii_letters)
+    limit = 15
 
-# Picking a random position (1..5) for placing a same symbol in both card1 and card2
-pos1 = random.randint(0, 4)  # pos1 for card-1
-pos2 = random.randint(0, 4)  # pos2 for card-2
+# Creating cards based on the difficulty level selected (as limit)
+card1 = [0]*limit
+card2 = [0]*limit
+
+# Picking a random position (from 1..limit-1) for placing a same symbol in both card1 and card2
+pos1 = random.randint(0, limit-1)  # pos1 for card-1
+pos2 = random.randint(0, limit-1)  # pos2 for card-2
 
 # Picking a random symbol from a list of 52 values (26-lower, 26-upper)
 samesymbol = random.choice(symbols)
@@ -35,7 +60,7 @@ else:
 # so now, 1 same symbol is placed in both the cards, now its time to place some other random symbols in leftover positions in both the cards
 
 i = 0
-while i < 5:
+while i < limit:
     if i != pos1 and i != pos2:  # this is because we would not like to replace the already placed symbol(same symbol that is placed already in both the cards)
         alphabet1 = random.choice(symbols)
         symbols.remove(alphabet1)  # Refer ***NOTE****
@@ -52,9 +77,18 @@ while i < 5:
 print("Card 1 : ", card1)
 print("Card 2 : ", card2)
 
-userchoice = input("Select the similar Letter : ")
+userchoice = input("Select the similar Letter present in both cards : ")
 if userchoice == samesymbol:
-    print("You WON !!!")
+    print("Hurray You WON the game !!!")
 else:
     print("You lost, Please try again!!")
+    print("The letter is ", samesymbol)
+    print("Present at {} in card-1 and at {} in card-2".format(pos1+1, pos2+2))
+    for i in range(1, limit+1):
+        print("  {}  ".format(i), end="")
+    print()
+    print(card1)
+    print(card2)
+    for i in range(1, limit+1):
+        print("  {}  ".format(i), end="")
 
